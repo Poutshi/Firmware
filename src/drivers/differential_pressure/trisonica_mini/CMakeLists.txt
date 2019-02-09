@@ -1,6 +1,6 @@
 ############################################################################
 #
-#   Copyright (c) 2017 PX4 Development Team. All rights reserved.
+#   Copyright (C) 2017  Intel Corporation. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions
@@ -30,9 +30,13 @@
 # POSSIBILITY OF SUCH DAMAGE.
 #
 ############################################################################
-
-add_subdirectory(ets)
-add_subdirectory(ms4525)
-add_subdirectory(ms5525)
-add_subdirectory(sdp3x)
-add_subdirectory(trisonica_mini)
+px4_add_module(
+	MODULE drivers__trisonica_mini
+	MAIN trisonica_mini
+	#STACK_MAIN 1200
+	SRCS
+		trisonica_mini.cpp
+	MODULE_CONFIG
+		module.yaml
+	DEPENDS
+	)

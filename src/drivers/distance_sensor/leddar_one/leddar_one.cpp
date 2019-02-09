@@ -176,6 +176,7 @@ int leddar_one_main(int argc, char *argv[])
 		switch (ch) {
 		case 'd':
 			serial_port = myoptarg;
+			printf("option port myoptarg : %s  serial port : %s \n",myoptarg,serial_port);
 			break;
 
 		case 'r':
