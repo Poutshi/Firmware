@@ -57,7 +57,7 @@
 #include <drivers/airspeed/airspeed.h>
 
 #define NAME "trisonica_mini"
-#define DEVICE_PATH "/dev/" NAME
+#define DEVICE_PATH "/dev/tris_mini"
 
 // #define SENSOR_READING_FREQ 10.0f
 // #define READING_USEC_PERIOD (unsigned long)(1000000.0f / SENSOR_READING_FREQ)
@@ -164,6 +164,7 @@ static void help()
 	printf("missing command: try 'start', 'stop' or 'test'\n");
 	printf("options:\n");
 	printf("    -d <serial port> to set the serial port were " NAME " is connected\n");
+	printf("	-h for help");
 }
 
 int trisonica_mini_main(int argc, char *argv[])
@@ -174,13 +175,16 @@ int trisonica_mini_main(int argc, char *argv[])
 	const char *serial_port = "/dev/ttyS3";
 	static trisonica_mini *inst = nullptr;
 
-	while ((ch = px4_getopt(argc, argv, "d", &myoptind, &myoptarg)) != EOF)
+	while ((ch = px4_getopt(argc, argv, "d:h", &myoptind, &myoptarg)) != EOF)
 	{
 		switch (ch)
 		{
 		case 'd':
 			serial_port = myoptarg;
 			printf("option port myoptarg : %s  serial port : %s \n",myoptarg,serial_port);
+			break;
+		case 'h':
+			help();
 			break;
 		default:
 			help();
@@ -254,7 +258,7 @@ int trisonica_mini_main(int argc, char *argv[])
 }
 
 trisonica_mini::trisonica_mini(const char *device_path, const char *serial_port):
-	CDev(device_path),
+	CDev(DEVICE_PATH),
 	_collect_timeout_perf(perf_alloc(PC_COUNT, "trisonica_mini_collect_timeout")),
 	_comm_error(perf_alloc(PC_COUNT, "trisonica_mini_comm_errors")),
 	_sample_perf(perf_alloc(PC_ELAPSED, "trisonica_mini_sample"))
